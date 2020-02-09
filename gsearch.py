@@ -30,11 +30,20 @@ def main():
         sleep(0.5)
         parser.print_help()
         return 
-    print("searched: {} opening results: {} from websites: {} and listing {}".format(args.query,args.results,[bigsites[int(x)] for x in args.bigsite] if args.bigsite else "all",args.list))
+    all_sites = []
+    all_sites += args.site if args.site else []
+    all_sites += args.bigsite if args.bigsite else []
+    print("searching {}{}{}{}".format(
+        f"{' '.join(args.query)} ",
+        f"open results: {','.join(args.results)} " if args.results else "",
+        f"from websites: {', '.join(all_sites)} " if len(all_sites) > 0 else "",
+        "but listing first " if args.list else ""))
     query = '+'.join(args.query)
     url="https://www.google.com/search?q="
     if args.bigsite:
             query += " |".join([f" site:{bigsites[int(x)]}" for x in args.bigsite])
+    if args.site:
+        query += " |".join([f" site:{x}" for x in args.site])
     if not args.results:
         if args.list:
             #list
@@ -64,8 +73,7 @@ def main():
 def get_filtered_a(full_url):
     soup = bs(get(full_url,headers=headers).content,'html.parser')
     arr = soup.find_all('a')
-    links_array = [a for a in arr if a.has_attr('href')] 
-    # and a['href'][1:4] == 'url'] #TODO delete this
+    links_array = [a for a in arr if a.has_attr('href')]
     return [x for x in links_array if x.find("h3")]
 
 if __name__ == "__main__":
