@@ -7,14 +7,17 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 from threading import Thread
 from time import sleep
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'}
 bigsites={1:"stackoverflow.com",2:"github.com",3:"stackify.com",4:"medium.com",5:"quora.com"}
 def main():
     parser = argparse.ArgumentParser(description="BIG Sites: "+', '.join('{} - {}'.format(k,v) for k,v in bigsites.items()))
     parser.add_argument("-q", "--query", help="search query",nargs='+')
     parser.add_argument("-r", "--results", help="Open results by order (1 for first search result)",nargs='+')
-    parser.add_argument("-S", "--bigsite", nargs="+",help=f"Search ONLY from the specifics bigsites.")
+    parser.add_argument("-s", "--site", nargs="+",help="Search ONLY from this sites.")
+    parser.add_argument("-S", "--bigsite", nargs="+",help="Search ONLY from the specifics bigsites.")
+    parser.add_argument("-l","--list",action='store_true',help="list n the first 10 search result, cant go with -r.")
     args = parser.parse_args()
-    if not args.query:
+    if not args.query: #print intro and help
         with open_file("./icon.txt","r") as file:
             print(file.read())
         sleep(0.5)
@@ -26,26 +29,44 @@ def main():
             print(file.read())
         sleep(0.5)
         parser.print_help()
-        return
-    print("searched: {} opening results: {} from websites: {}".format(args.query,args.results,[bigsites[int(x)] for x in args.bigsite] if args.bigsite else "all"))
+        return 
+    print("searched: {} opening results: {} from websites: {} and listing {}".format(args.query,args.results,[bigsites[int(x)] for x in args.bigsite] if args.bigsite else "all",args.list))
     query = '+'.join(args.query)
     url="https://www.google.com/search?q="
     if args.bigsite:
             query += " |".join([f" site:{bigsites[int(x)]}" for x in args.bigsite])
     if not args.results:
-        open(f"{url}{query}")
+        if args.list:
+            #list
+            arr=get_filtered_a(f"{url}{query}")
+            for i,v in zip(range(1,11),arr[:10]):
+                print(f"{i}) {v.find('h3').find('span').text}")
+            arr_of_indexes = list(map(int,input("=> ").split()))
+            print(arr_of_indexes)
+            for i in arr_of_indexes:
+                open(arr[i-1]['href'],new=2,autoraise=False)
+        else:
+            open(f"{url}{query}")
     else:
+        if args.list:
+            print("-r/--results cant go with -l/--list!!!")
+            return
         try:
             args.results=list(map(int,args.results))
         except:
             parser.print_help()
             return
-        soup = bs(get(f"{url}{query}").content,'html.parser')
-        arr = soup.find_all('a')
-        filtered_arr = [a for a in arr if a['href'][1:4] == 'url']
-        #print("\n".join(map(str,filtered_arr)))
-        for i in map(int,args.results):
-            open(f"https://www.google.com{filtered_arr[i-1]['href']}",new=2,autoraise=False)
+        filtered_arr = get_filtered_a(f"{url}{query}")
+        for i in args.results:
+            open(filtered_arr[i-1]['href'],new=2,autoraise=False)
+
+
+def get_filtered_a(full_url):
+    soup = bs(get(full_url,headers=headers).content,'html.parser')
+    arr = soup.find_all('a')
+    links_array = [a for a in arr if a.has_attr('href')] 
+    # and a['href'][1:4] == 'url'] #TODO delete this
+    return [x for x in links_array if x.find("h3")]
 
 if __name__ == "__main__":
     main()
