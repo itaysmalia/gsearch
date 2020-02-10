@@ -1,7 +1,7 @@
 gsearch made by itay S.M
 
 Hello!!
-I has an idea to make an app that will help you go another step in your favourite CLI.
+I had an idea to make an app that will help you go another step in your favourite CLI.
 gsearch will help you search,filter,list and open your searches.
 
 usage: gsearch.py [-h] [-l] [-q QUERY] [-r RESULTS]
