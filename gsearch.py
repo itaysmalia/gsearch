@@ -49,7 +49,7 @@ def main():
             #list
             arr=get_filtered_a(f"{url}{query}")
             for i,v in zip(range(1,11),arr[:10]):
-                print(f"{i}) {v.find('h3').find('span').text}")
+                print(f"{i}) {v.find('h3').text}")
             arr_of_indexes = list(map(int,input("=> ").split()))
             print(arr_of_indexes)
             for i in arr_of_indexes:
