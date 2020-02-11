@@ -22,14 +22,16 @@ optional arguments:
                         Search ONLY from the specifics bigsite/s.
 
 add gsearch to your commands:
-Linux:\n
+Linux:
+
 <code>
 $ chmod +x ./gsearch.py
 $ sudo ln -s ./gsearch.py /usr/bin/gsearch
 </code>
 
 
-usage:\n
+usage:
+
 <code>./gsearch.py -q python3 docs</code>
 => open google result of searching "python3 docs"
 
