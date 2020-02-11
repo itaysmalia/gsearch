@@ -1,8 +1,13 @@
 gsearch made by itay S.M
 
+from now, gsearch your problems.
+
+<code>$ gsearch -q python3 socket PermissionError: [Errno 13] Permission denied</code>
+
 Hello!!
-I had an idea to make an app that will help you go another step in your favourite CLI.
-gsearch will help you search,filter,list and open your searches.
+I had an idea to make a program that will help you go another step in your favourite CLI.
+gsearch will help you search,filter,list and then open your searches in yout default browser, ready for reading!!
+
 
 usage: gsearch.py [-h] [-l] [-q QUERY] [-r RESULTS]
                   [-s SITE] [-S BIGSITE]
