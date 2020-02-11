@@ -20,3 +20,28 @@ optional arguments:
   -s SITE, --site SITE  Search ONLY from this soecific site/s
   -S BIGSITE, --bigsite BIGSITE
                         Search ONLY from the specifics bigsite/s.
+
+add gsearch to your commands:
+Linux:
+<code>
+$ chmod +x ./gsearch.py
+$ sudo ln -s ./gsearch.py /usr/bin/gsearch
+</code>
+
+
+usage:
+<code>./gsearch.py -q python3 docs</code>
+=> open google result of searching "python3 docs"
+
+<code>./gsearch.py -l -q python3 docs</code>
+=> list 10 first google result of searching "python3 docs" and let you choose which result/s to choose
+
+
+<code>./gsearch.py -S 1 -q python3 IOError</code>
+=> open google result of searching "python3 IOError" but from bufferoverflow.com only (the list is in the help(./gsearch.py -h))
+
+<code>./gsearch.py -s mysite.com mysite2.com -q python3 IOError</code>
+=> open google result of searching "python3 IOError" but from mysite.com and from mysite2.com only
+
+<code>./gsearch.py -S 2 -q python3 IOError -r 1</code>
+=> searching "python3 IOError" from github.com only and then opening the page of the first result
