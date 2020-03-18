@@ -10,7 +10,7 @@ from threading import Thread
 from time import sleep
 import clipboard
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'}
-bigsites={1:"stackoverflow.com",2:"github.com",3:"stackify.com",4:"medium.com",5:"quora.com",6:"redis7.com"}
+bigsites={1:"stackoverflow.com",2:"github.com",3:"stackify.com",4:"medium.com",5:"quora.com",6:"redis7.com",7:"exploitdb.com"}
 
 def print_intro():
     home = os.path.expanduser("~")
@@ -30,6 +30,7 @@ def print_intro():
     except:
         sys.exit("gsearch in not installed")
     sleep(0.5)
+    
 
 def main():
     parser = argparse.ArgumentParser(description="BIG Sites: "+', '.join('{} - {}'.format(k,v) for k,v in bigsites.items()))
@@ -46,7 +47,7 @@ def main():
     parser.add_argument("-c",
                         "--copy",
                         action='store_true',
-                        help="copy url to clipboard instead of open it in the webbrowser")
+                        help="copy url to clipboard instead of open it in the web browser")
     
     parser.add_argument("-s",
                         "--site",
@@ -58,14 +59,26 @@ def main():
                         nargs="+",
                         help="Search ONLY from the specifics bigsites.")
     
+    parser.add_argument("-t",
+                        "--intext",
+                        nargs="+",
+                        help="Search sites that contains those values")
+    
+    parser.add_argument("-u",
+                        "--inurl",
+                        nargs="+",
+                        help="Search sites that their url contains those values")
+    
+    parser.add_argument("-f",
+                        "--filetype",
+                        nargs="+",
+                        help="Search files those types")
+    
     parser.add_argument("-l",
                         "--list",
                         action='store_true',
                         help="list n the first 10 search result, cant go with -r.")
-    parser.add_argument("-i",
-                        "--insite",
-                        nargs="+",
-                        help="Search sites that contains this values")
+    
     args = parser.parse_args()
     
     if not args.query: #print intro and help
@@ -86,11 +99,15 @@ def main():
     query = '+'.join(args.query)
     url="https://www.google.com/search?q="
     if args.bigsite:
-            query += " |".join([f" site:{bigsites[int(x)]}" for x in args.bigsite])
+        query += " |".join([f" site:{bigsites[int(x)]}" for x in args.bigsite])
     if args.site:
         query += " |".join([f" site:{x}" for x in args.site])
-    if args.insite:
-        query += " |".join([f" insite:{x}" for x in args.insite])
+    if args.intext:
+        query += " |".join([f" intext:{x}" for x in args.intext])
+    if args.inurl:
+        query += " |".join([f" inurl:{x}" for x in args.url])
+    if args.filetype:
+        query += " |".join([f" filetype:{x}" for x in args.filetype])
     if not args.results:
         if args.list:
             arr=get_filtered_links(f"{url}{query}")
