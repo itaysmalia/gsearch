@@ -7,7 +7,7 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 from threading import Thread
 from time import sleep
-import pyperclip
+import clipboard
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'}
 bigsites={1:"stackoverflow.com",2:"github.com",3:"stackify.com",4:"medium.com",5:"quora.com",6:"redis7.com"}
 
@@ -85,19 +85,18 @@ def main():
         query += " |".join([f" insite:{x}" for x in args.insite])
     if not args.results:
         if args.list:
-            #list
             arr=get_filtered_links(f"{url}{query}")
             for i,v in enumerate(arr[:10]):
                 print(f"{i + 1}) {v.find('h3').text}")
             arr_of_indexes = list(map(int,input("=> ").split()))
             if args.copy:
-                pyperclip.copy(arr[arr_of_indexes[-1]-1]['href'])
+                clipboard.copy(arr[arr_of_indexes[-1]-1]['href'])
             else:
                 for i in arr_of_indexes:
                     open(arr[i-1]['href'],new=2,autoraise=False)
         else:
             if args.copy:
-                pyperclip.copy(f"{url}{query}")
+                clipboard.copy(f"{url}{query}")
             else:
                 open(f"{url}{query}")
     else:
@@ -111,7 +110,7 @@ def main():
             return
         filtered_arr = get_filtered_links(f"{url}{query}")
         if args.copy:
-            pyperclip.copy(filtered_arr[-1]['href'])
+            clipboard.copy(filtered_arr[-1]['href'])
         else:
             for i in args.results:
                 open(filtered_arr[i-1]['href'],new=2,autoraise=False)
