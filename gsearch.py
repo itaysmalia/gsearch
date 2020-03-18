@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 open_file = open
 import argparse
-from sys import argv
+import os
+import sys
 from webbrowser import open,open_new_tab
 from requests import get
 from bs4 import BeautifulSoup as bs
@@ -12,15 +13,22 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWe
 bigsites={1:"stackoverflow.com",2:"github.com",3:"stackify.com",4:"medium.com",5:"quora.com",6:"redis7.com"}
 
 def print_intro():
-    with open_file("./icon.txt","r") as file:
-        print(file.read())
+    home = os.path.expanduser("~")
+    try:
+        with open_file(home+"/.gsearch/icon.txt","r") as file:
+            print(file.read())
+    except:
+        sys.exit("gsearch is not installed")
     sleep(0.5)
     print()
     print("Made by")
     sleep(0.5)
     print()
-    with open_file("./by.txt","r") as file:
-        print(file.read())
+    try:
+        with open_file(home+"/.gsearch/by.txt","r") as file:
+            print(file.read())
+    except:
+        sys.exit("gsearch in not installed")
     sleep(0.5)
 
 def main():

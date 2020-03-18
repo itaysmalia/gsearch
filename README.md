@@ -26,6 +26,16 @@ optional arguments:
   -S BIGSITE, --bigsite BIGSITE
                         Search ONLY from the specifics bigsite/s.
 
+installation:
+<code>./install.sh</code>
+or
+<code>
+mkdir ~/.gsearch
+cp -v by.txt ~/.gsearch/by.txt
+cp -v icon.txt ~/.gsearch/icon.txt
+sudo ln -s $( pwd )/gsearch.py /usr/bin/gsearch
+</code>
+
 usage:
 
 <code>./gsearch.py -q python3 IOError</code>
