@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="gsearch-pkg-itaysmalia", # Replace with your own username
+    name="gsearch", # Replace with your own username
     version="0.0.1",
     author="Itay Sin Malia",
     author_email="itays.malia@gmail.com",
@@ -19,4 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    package_data={
+        "":["by.txt","icon.txt"]
+    }
 )

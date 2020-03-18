@@ -26,13 +26,8 @@ optional arguments:
   -S BIGSITE, --bigsite BIGSITE
                         Search ONLY from the specifics bigsite/s.
 
-add gsearch to your commands:
-Linux:
+gse
 
-<code>
-$ chmod +x ./gsearch.py
-$ sudo ln -s ./gsearch.py /usr/bin/gsearch
-</code>
 
 
 usage:
